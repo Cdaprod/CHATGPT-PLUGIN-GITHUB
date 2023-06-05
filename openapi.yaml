@@ -1,0 +1,69 @@
+openapi: 3.0.0
+info:
+  title: GitHub Repo Interaction API
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000/api
+paths:
+  /interact-with-repo:
+    post:
+      summary: Interact with a GitHub repository
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - repo_url
+                - local_dir
+                - file_path
+                - file_content
+                - commit_message
+              properties:
+                repo_url:
+                  type: string
+                  description: URL of the GitHub repository
+                local_dir:
+                  type: string
+                  description: Local directory to clone the repository to
+                file_path:
+                  type: string
+                  description: Path of the file in the repository to modify
+                file_content:
+                  type: string
+                  description: New content for the file, base64 encoded
+                commit_message:
+                  type: string
+                  description: Commit message for the changes
+      responses:
+        '200':
+          description: Successfully interacted with the GitHub repository
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Status of the request
+        '400':
+          description: Error interacting with the GitHub repository
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+        '500':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
